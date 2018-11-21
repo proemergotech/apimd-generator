@@ -1,8 +1,18 @@
 # API.md generator for go projects
 
+## Development:
+
+- if you update API.md.go, run `go run pack.go` in order to regenerate `API.md.tmpl.go`
+
 ## Usage
 
-- run `dep ensure -add gitlab.com/proemergotech/apimd-generator-go:git@gitlab.com:proemergotech/apimd-generator-go.git`
+- add to Gopkg.toml: 
+```
+[[constraint]]
+name = "gitlab.com/proemergotech/apimd-generator-go"
+source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
+version = "0.1.0"
+```
 - create `<project_root>/apimd/main.go` with the example content
 - run `go run apimd/main.go` from project root
 
@@ -35,6 +45,10 @@ type value struct {
 
 func (d *definitions) Name() string {
 	return "Dliver Irc Room Manager Service"
+}
+
+func (d *definitions) APIMDPath() string {
+	return "./API.md"
 }
 
 func (d *definitions) Usage() []string {

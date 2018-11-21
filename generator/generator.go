@@ -24,13 +24,8 @@ func (g *Generator) Generate(d Definitons) {
 	c := newCollector()
 	doc := c.collect(d)
 
-	tmpl, err := filepath.Abs("./apimd/generator/API.md.tmpl")
-	if err != nil {
-		log.Fatalf("%+v", err)
-	}
-
 	t, err := template.
-		New(filepath.Base(tmpl)).
+		New("").
 		Funcs(template.FuncMap{
 			"dict": func(v ...interface{}) map[string]interface{} {
 				result := make(map[string]interface{}, len(v)/2)
@@ -59,7 +54,7 @@ func (g *Generator) Generate(d Definitons) {
 				return strings.Repeat("0", 3-len(result)) + result
 			},
 		}).
-		ParseFiles(tmpl)
+		Parse(apimdTmpl)
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
@@ -70,7 +65,7 @@ func (g *Generator) Generate(d Definitons) {
 		log.Fatalf("%+v", err)
 	}
 
-	apimd, err := filepath.Abs("./API.md")
+	apimd, err := filepath.Abs(d.APIMDPath())
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
