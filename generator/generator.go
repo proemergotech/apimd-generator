@@ -65,7 +65,7 @@ func (g *Generator) Generate(d Definitons) {
 		log.Fatalf("%+v", err)
 	}
 
-	apimd, err := filepath.Abs(d.APIMDPath())
+	apimd, err := filepath.Abs(d.OutputPath())
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}

@@ -47,7 +47,7 @@ func (d *definitions) Name() string {
 	return "Dliver Irc Room Manager Service"
 }
 
-func (d *definitions) APIMDPath() string {
+func (d *definitions) OutputPath() string {
 	return "./API.md"
 }
 
