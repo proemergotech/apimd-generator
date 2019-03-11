@@ -52,6 +52,19 @@ type GEBEvent struct {
 	Body        interface{}
 }
 
+type CentrifugeGroup struct {
+	Name   string
+	Events []*CentrifugeEvent
+}
+
+type CentrifugeEvent struct {
+	Name        string
+	Namespace   string
+	Channel     string
+	Description []string
+	Params      interface{}
+}
+
 func (g *HTTPGroup) GetName() string {
 	return g.Name
 }
@@ -84,11 +97,11 @@ func (g *ConsumedMessagesGroup) GetName() string {
 }
 
 func (g *ConsumedMessagesGroup) GetRoutePrefix() string {
-	return g.RoutePrefix
+	return "/(geb-in)" + g.RoutePrefix
 }
 
 func (g *ConsumedMessagesGroup) GetCategory() string {
-	return "Consumed Messages"
+	return "Consumed GEB Messages"
 }
 
 func (g *ConsumedMessagesGroup) GetRoutes() []*Route {
@@ -112,11 +125,11 @@ func (g *FiredEventsGroup) GetName() string {
 }
 
 func (g *FiredEventsGroup) GetRoutePrefix() string {
-	return g.RoutePrefix
+	return "/(geb-out)" + g.RoutePrefix
 }
 
 func (g *FiredEventsGroup) GetCategory() string {
-	return "Fired Events"
+	return "Fired GEB Events"
 }
 
 func (g *FiredEventsGroup) GetRoutes() []*Route {
@@ -128,6 +141,34 @@ func (g *FiredEventsGroup) GetRoutes() []*Route {
 			Method:      http.MethodGet,
 			Description: e.Description,
 			Responses:   map[int]interface{}{0: e.Body},
+		})
+	}
+
+	return result
+}
+
+func (g *CentrifugeGroup) GetName() string {
+	return g.Name
+}
+
+func (g *CentrifugeGroup) GetRoutePrefix() string {
+	return "/(centrifuge)"
+}
+
+func (g *CentrifugeGroup) GetCategory() string {
+	return "Fired Centrifuge Events"
+}
+
+func (g *CentrifugeGroup) GetRoutes() []*Route {
+	result := make([]*Route, 0, len(g.Events))
+	for _, e := range g.Events {
+		result = append(result, &Route{
+			Name:        e.Name,
+			Path:        e.Namespace + "\\:" + e.Channel,
+			Method:      http.MethodPost,
+			Description: e.Description,
+			Request:     e.Params,
+			Responses:   map[int]interface{}{0: nil},
 		})
 	}
 
