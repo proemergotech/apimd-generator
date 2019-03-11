@@ -6,15 +6,12 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
-	"regexp"
 	"strconv"
 	"strings"
 	"text/template"
 )
 
 type Generator struct{}
-
-var urlRegex = regexp.MustCompile(`:(\w+)`)
 
 func NewGenerator() *Generator {
 	return &Generator{}

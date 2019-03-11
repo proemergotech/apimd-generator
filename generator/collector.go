@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"reflect"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -16,6 +17,8 @@ const (
 	typeParam = "param"
 	typeQuery = "query"
 )
+
+var urlRegex = regexp.MustCompile(`:(\w+)`)
 
 type Collector struct {
 	values  map[int]*Value
@@ -61,7 +64,7 @@ func (c *Collector) collect(d Definitons) *Document {
 
 		docRoutes := make([]*DocRoute, 0, len(routes))
 		for routeI, route := range routes {
-			path := urlRegex.ReplaceAllString(route.Path, "{$1}")
+			path := normalizePath(route.Path)
 			docRoute := &DocRoute{
 				Name:        route.Name,
 				Method:      route.Method,
@@ -373,4 +376,14 @@ func (*Collector) apimdType(jsonVal interface{}) (string, error) {
 
 func isZero(x interface{}) bool {
 	return reflect.DeepEqual(x, reflect.Zero(reflect.TypeOf(x)).Interface())
+}
+
+// normalizePath see: TestNormalizePath
+func normalizePath(path string) string {
+	const placeholder = "{colon-esc-placeholr}"
+	path = strings.Replace(path, "\\:", placeholder, -1)
+	path = urlRegex.ReplaceAllString(path, "{$1}")
+	path = strings.Replace(path, placeholder, ":", -1)
+
+	return path
 }
