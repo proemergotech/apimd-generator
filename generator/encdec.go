@@ -1,11 +1,11 @@
 package generator
 
 import (
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkg/errors"
 )
 
-var jsons = []jsoniter.API{newJSON("param"), newJSON("query"), newJSON("json"), newJSON("geb")}
+var jsons = []jsoniter.API{newJSON("param"), newJSON("query"), newJSON("json"), newJSON("geb"), newJSON("centrifuge")}
 
 func encDec(v interface{}) (interface{}, error) {
 	outM := make(map[string]interface{})
