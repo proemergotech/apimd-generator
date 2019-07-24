@@ -1,5 +1,8 @@
 # Release Notes
 
+## v0.1.3 / 2019-07-24
+- added support for array type query parameters
+
 ## v0.1.2 / 2019-05-15
 - added centrifuge tag
 
