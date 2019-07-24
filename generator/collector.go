@@ -101,7 +101,21 @@ func (c *Collector) collect(d Definitons) *Document {
 				for k, q := range query {
 					qVal, ok := q.(*DocValue)
 					if !ok {
-						log.Fatalf("%+v", errors.New("nested object supplied as query for route: "+route.Name))
+						if values, ok := q.([]interface{}); ok && len(values) != 0 {
+							for _, value := range values {
+								if v, ok := value.(*DocValue); ok {
+									if qVal == nil {
+										qVal = v
+										qVal.APIMDType = "array"
+									}	else {
+										mergeQueryDocValues(qVal, v)
+									}
+								}
+							}
+						}
+						if qVal == nil {
+							log.Fatalf("%+v", errors.New("invalid nested object supplied as query for route: "+route.Name))
+						}
 					}
 
 					docRoute.Params[k] = qVal
@@ -161,6 +175,22 @@ func (c *Collector) collect(d Definitons) *Document {
 	}
 
 	return result
+}
+
+func mergeQueryDocValues(target *DocValue, source *DocValue) {
+	target.Opt = target.Opt || source.Opt
+	target.Desc = joinNonEmpty(", ", target.Desc, source.Desc)
+	target.Value = joinNonEmpty(",", target.Value, source.Value)
+}
+
+func joinNonEmpty(sep string, values ...string) string {
+	a := make([]string, 0, len(values))
+	for _, value := range values {
+		if value != "" {
+			a = append(a, value)
+		}
+	}
+	return strings.Join(a, sep)
 }
 
 func (c *Collector) createTree(d Definitons, data interface{}, markedData map[string]interface{}) (interface{}, error) {
