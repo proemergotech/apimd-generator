@@ -12,5 +12,5 @@ func main() {
 		log.Fatalf("%+v", err)
 	}
 
-	ioutil.WriteFile("./generator/API.md.tmpl.go", []byte("package generator\n\nconst apimdTmpl="+strconv.Quote(string(apimd))), 0777)
+	_ = ioutil.WriteFile("./generator/API.md.tmpl.go", []byte("package generator\n\nconst apimdTmpl="+strconv.Quote(string(apimd))), 0777)
 }
