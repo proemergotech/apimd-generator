@@ -107,7 +107,7 @@ func (c *Collector) collect(d Definitons) *Document {
 									if qVal == nil {
 										qVal = v
 										qVal.APIMDType = "array"
-									}	else {
+									} else {
 										mergeQueryDocValues(qVal, v)
 									}
 								}

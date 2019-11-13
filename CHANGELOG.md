@@ -1,5 +1,8 @@
 # Release Notes
 
+## v0.2.0 / 2019-11-13
+- use go modules instead of dep
+
 ## v0.1.3 / 2019-07-24
 - added support for array type query parameters
 
