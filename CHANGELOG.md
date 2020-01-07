@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.0.0 / 2020-01-07
+- release version v1.0.0
+- add verify script and ci job
+
 ## v0.2.0 / 2019-11-13
 - use go modules instead of dep
 
