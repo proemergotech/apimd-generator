@@ -9,8 +9,8 @@
 - add to Gopkg.toml: 
 ```
 [[constraint]]
-name = "gitlab.com/proemergotech/apimd-generator-go"
-source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
+name = "github.com/proemergotech/apimd-generator-go"
+source = "git@github.com:proemergotech/apimd-generator-go.git"
 version = "0.1.0"
 ```
 - create `<project_root>/apimd/main.go` with the example content
@@ -25,8 +25,9 @@ import (
 	"strconv"
 	"time"
 
-	"gitlab.com/proemergotech/apimd-generator-go/generator"
-	"gitlab.com/proemergotech/uuid-go"
+    "github.com/proemergotech/uuid-go"
+
+	"github.com/proemergotech/apimd-generator-go/generator"
 )
 
 func main() {

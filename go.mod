@@ -1,6 +1,6 @@
-module gitlab.com/proemergotech/apimd-generator-go
+module github.com/proemergotech/apimd-generator
 
-go 1.13
+go 1.15
 
 require (
 	github.com/json-iterator/go v1.1.6
